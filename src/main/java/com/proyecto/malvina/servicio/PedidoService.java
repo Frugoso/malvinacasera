@@ -134,7 +134,7 @@ public class PedidoService {
     @Transactional
     public void agregar(Pedido pedido, Producto producto, Integer cantidad) throws ErrorService {
         //habría que verificar las cantidades antes de agregar
-        if (this.verificarCantidades(producto, cantidad)) {
+        
             boolean x = false;
 
             List<Producto> productos = pedido.getProductos();
@@ -144,11 +144,9 @@ public class PedidoService {
                 for (int i = 0; i < productos.size(); i++) {
                     if (productos.get(i).equals(producto)) {
                         x = true;
-                        if (this.verificarCantidades(producto, cantidad + cantidades.get(i))) {
+                        
                             cantidades.set(i, cantidad + cantidades.get(i));
-                        } else {
-                            throw new ErrorService("las cantidades superan al stock");
-                        }
+                        
                         break;
                     }
                 }
@@ -163,9 +161,7 @@ public class PedidoService {
             pedido.setCantidad(cantidades);
 
             pedidoRepositorio.save(pedido);
-        } else {
-            throw new ErrorService("las cantidades superan al stock");
-        }
+         
     }
 
     @Transactional
